@@ -58,7 +58,7 @@ layout: cover
 
 ---
 
-# The same syntax!
+# The **same syntax**
 
 ````md magic-move
 ```python314
@@ -73,7 +73,7 @@ greeting = t"Hello, {name}!"
 
 ---
 
-# Really, the same syntax!
+# Really, the **same syntax**
 
 ````md magic-move
 ```python314
@@ -86,6 +86,41 @@ caption = t"For only ${price:.2f}!"
 ```
 ````
 
+---
 
+# But t-strings are **different**:
 
+````md magic-move
+```python314
+type(f"Hello, {name}!")
+```
+```python314
+type(f"Hello, {name}!")  
+# <class 'str'>
+```
+```python314
+type(f"Hello, {name}!")  
+# <class 'str'>
+type(t"Hello, {name}!")
+```
+```python314
+type(f"Hello, {name}!")  
+# <class 'str'>
+type(t"Hello, {name}!")
+# <class 'string.templatelib.Template'>
+```
+````
 
+<div v-click><p>wait, <strong>what's this</strong>?</p></div>
+
+---
+
+# t-strings are **not** strings
+
+<div v-click><p>you write them like they <i>are</i>...</p></div>
+<div v-click>
+```python314
+t"This is not a string"
+```
+</div>
+<div v-click><p>but they evaluate to a new type, <strong><code>Template</code></strong></p></div>
