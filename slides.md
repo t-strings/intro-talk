@@ -6,7 +6,7 @@ colorSchema: dark
 layout: default
 mdc: true
 ---
-# A whirlwind tour of **Template&nbsp;Strings**
+<center><h1>A whirlwind tour of <strong>Template&nbsp;Strings</strong></h1></center>
 
 ---
 
@@ -51,5 +51,40 @@ But enough about me!
 
 
 ---
+layout: cover
+---
 
 # A generalization of **f-strings**
+
+---
+
+# The same syntax!
+
+<div v-click>
+```python314
+name = "World"
+greeting = f"Hello, {name}!"
+```
+</div>
+<div v-click>
+```python314
+name = "World"
+greeting = t"Hello, {name}!"
+```
+</div>
+
+---
+
+# The same syntax!
+
+```python314
+name = "World"
+greeting = f"Hello, {name!r>12 }!"
+```
+
+```python314
+name = "World"
+greeting = t"Hello, {name!r>12 }!"
+```
+
+
