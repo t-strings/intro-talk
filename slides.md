@@ -4,16 +4,13 @@ transition: slide-left
 title: A Whirlwind Tour of Template Strings
 layout: center
 ---
-
-# Template Strings!
+# A whirlwind tour of **Template&nbsp;Strings**
 
 ---
 layout: default
 ---
 
-# Who am I?
-
-Hi, I'm **Dave Peck**.
+# Hi, I'm **Dave Peck**.
 
 I'm an independent software developer based in sunny Seattle, Washington. <span class="little">~~☔️~~</span>
 

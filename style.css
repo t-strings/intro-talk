@@ -2,11 +2,72 @@
 	--foothills: #233d58;
 	--wash: #f0f1f3;
 	--sunset: #d19d4d;
-	--main-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@font-face {
+	font-family: "apex-predator";
+	src: url("./fonts/ap-400.woff2") format("woff2"), url("./fonts/ap-400.woff") format("woff"),
+		url("./fonts/ap-400.otf") format("opentype");
+	font-display: auto;
+	font-style: normal;
+	font-weight: 400;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: "apex-predator";
+	src: url("./fonts/ap-700.woff2") format("woff2"), url("./fonts/ap-700.woff") format("woff"),
+		url("./fonts/ap-700.otf") format("opentype");
+	font-display: auto;
+	font-style: normal;
+	font-weight: 700;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: "apex-predator";
+	src: url("./fonts/ap-400-italic.woff2") format("woff2"),
+		url("./fonts/ap-400-italic.woff") format("woff"),
+		url("./fonts/ap-400-italic.otf") format("opentype");
+	font-display: auto;
+	font-style: italic;
+	font-weight: 400;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: "dragonfly";
+	src: url("./fonts/d-400-italic.woff2") format("woff2"),
+		url("./fonts/d-400-italic.woff") format("woff"),
+		url("./fonts/d-400-italic.otf") format("opentype");
+	font-display: auto;
+	font-style: italic;
+	font-weight: 400;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: "dragonfly";
+	src: url("./fonts/d-700.woff2") format("woff2"), url("./fonts/d-700.woff") format("woff"),
+		url("./fonts/d-700.otf") format("opentype");
+	font-display: auto;
+	font-style: normal;
+	font-weight: 700;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: "dragonfly";
+	src: url("./fonts/d-400.woff2") format("woff2"), url("./fonts/d-400.woff") format("woff"),
+		url("./fonts/d-400.otf") format("opentype");
+	font-display: auto;
+	font-style: normal;
+	font-weight: 400;
+	font-stretch: normal;
 }
 
 .slidev-layout {
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-family: "apex-predator", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	background-color: var(--foothills);
 	color: var(--wash);
 	display: flex;
@@ -19,28 +80,38 @@
 	}
 
 	p {
-		opacity: 1.0 !important;
+		opacity: 1 !important;
 		color: var(--wash) !important;
-		font-size: 2.5em;
-		line-height: 1em;
+		font-size: 2.666em;
+		line-height: 1.25em;
 		padding-bottom: 0.55em;
 	}
 
 	h1,
 	h2,
 	h3 {
-		color: var(--sunset);
+		font-family: "apex-predator", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: color-mix(in srgb, var(--wash) 75%, white 25%);
 		font-weight: bold;
 		line-height: 1.5em;
 		padding-bottom: 0.25em;
 	}
 
+	h1 strong,
+	h2 strong,
+	h3 strong {
+		color: var(--sunset);
+	}
+
 	h1 {
-		font-size: 4em;
+		font-size: 3.85em;
 	}
 
 	h2 {
-		font-size: 3em;
+		font-size: 3.25em;
 	}
 
+	h3 {
+		font-size: 2.75em;
+	}
 }
