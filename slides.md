@@ -109,6 +109,7 @@ type(t"Hello, {name}!")
 ````
 
 <div v-click><p>wait, <strong>what's this</strong>?</p></div>
+
 ---
 
 # t-strings are **not** strings
