@@ -4,6 +4,24 @@
 	--sunset: #d19d4d;
 }
 
+.wash {
+	color: var(--wash);
+}
+
+.sunset {
+	color: var(--sunset);
+}
+
+strong {
+	color: var(--sunset);
+}
+
+.shiki {
+	font-size: 2em !important;
+	border-radius: 0.25em !important;
+	margin-bottom: 1em;
+}
+
 @font-face {
 	font-family: "apex-predator";
 	src: url("./fonts/ap-400.woff2") format("woff2"), url("./fonts/ap-400.woff") format("woff"),
@@ -66,6 +84,15 @@
 	font-stretch: normal;
 }
 
+.slidev-vclick-target {
+	transition: all 0.25s ease-out;
+}
+
+.slidev-vclick-hidden {
+	opacity: 0;
+	/* transform: translateX(100%); */
+}
+
 .slidev-layout {
 	font-family: "apex-predator", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	background-color: var(--foothills);
@@ -77,6 +104,11 @@
 	.little {
 		color: color-mix(in srgb, var(--sunset) 75%, gray 25%);
 		opacity: 0.75;
+	}
+
+	li,
+	ol {
+		font-size: 2.666em;
 	}
 
 	p {

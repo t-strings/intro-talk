@@ -2,12 +2,12 @@
 theme: default
 transition: slide-left
 title: A Whirlwind Tour of Template Strings
-layout: center
+colorSchema: dark
+layout: default
+mdc: true
 ---
 # A whirlwind tour of **Template&nbsp;Strings**
 
----
-layout: default
 ---
 
 # Hi, I'm **Dave Peck**.
@@ -23,3 +23,33 @@ and local government.
 
 But enough about me!
 -->
+
+---
+
+# Let's talk **PEP 750**!
+
+<div v-click><p>better known as <strong>Template Strings</strong></p></div>
+<div v-click><p><i>also</i> known as <strong>t-strings</strong></p></div>
+
+---
+
+# We'll cover:
+
+<div v-click><p><strong>What</strong> are t-strings?</p></div>
+<div v-click><p><strong>Why</strong> are t-strings?</p></div>
+<div v-click><p><s>advanced usage</s></p></div>
+
+---
+
+# What are **t-strings**?
+
+<div v-click><p>new feature shipping in <strong>Python 3.14</strong></p></div>
+<div v-click><p>they <strong>generalize</strong> f-strings</p></div>
+<div v-click><p>they help make f-strings <strong>safer</strong></p></div>
+
+
+
+
+---
+
+# A generalization of **f-strings**
