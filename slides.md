@@ -47,9 +47,6 @@ But enough about me!
 <div v-click><p>they <strong>generalize</strong> f-strings</p></div>
 <div v-click><p>they help make f-strings <strong>safer</strong></p></div>
 
-
-
-
 ---
 layout: cover
 ---
@@ -112,7 +109,6 @@ type(t"Hello, {name}!")
 ````
 
 <div v-click><p>wait, <strong>what's this</strong>?</p></div>
-
 ---
 
 # t-strings are **not** strings
