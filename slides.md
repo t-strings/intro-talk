@@ -60,31 +60,32 @@ layout: cover
 
 # The same syntax!
 
-<div v-click>
+````md magic-move
 ```python314
 name = "World"
 greeting = f"Hello, {name}!"
 ```
-</div>
-<div v-click>
 ```python314
 name = "World"
 greeting = t"Hello, {name}!"
 ```
-</div>
+````
 
 ---
 
-# The same syntax!
+# Really, the same syntax!
 
+````md magic-move
 ```python314
-name = "World"
-greeting = f"Hello, {name!r>12 }!"
+price = 14.95
+caption = f"For only ${price:.2f}!"
 ```
+```python314
+price = 14.95
+caption = t"For only ${price:.2f}!"
+```
+````
 
-```python314
-name = "World"
-greeting = t"Hello, {name!r>12 }!"
-```
+
 
 
