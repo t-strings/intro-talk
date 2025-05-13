@@ -1,12 +1,10 @@
-# intro-talk
+# flaskcon-talk
 
-This repository contains the [sli.dev](https://sli.dev/) slide deck for [Dave's](https://davepeck.org/about/) upcoming lightning talk about PEP 750 at Pycon US 2025.
+This repository contains the [sli.dev](https://sli.dev/) slide deck for [Paul](https://github.com/pauleveritt) and [Dave's](https://davepeck.org/about/) upcoming FlaskCon 2025 talk about Template Strings.
 
-You can view the slides at https://intro-talk.t-strings.help/
+You can view the slides at https://flaskcon-talk.t-strings.help/
 
 ### Details
-
-I learned the hard way that `sli.dev` is a pretty opinionated tool and that &mdash; despite claims to the contrary &mdash; it _really_ wants you to have a single slide deck per repository. (Just _try_ using their `vscode` extension in a repository with more than one slide deck, I dare you!) So, I decided to make a new repository for just this talk.
 
 To start the slide show:
 
