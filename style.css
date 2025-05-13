@@ -8,6 +8,18 @@
 	color: var(--wash);
 }
 
+.fade-wash {
+	color: var(--wash);
+	opacity: 0.5;
+}
+
+.slide-count {
+	color: var(--wash);
+	font-size: 0.5em;
+	opacity: 0.5;
+	vertical-align: middle;
+}
+
 .sunset {
 	color: var(--sunset);
 }
@@ -25,6 +37,10 @@ strong {
 
 .smaller .shiki {
 	font-size: 1.3333em !important;
+}
+
+.smallest .shiki {
+	font-size: 1em !important;
 }
 
 @font-face {

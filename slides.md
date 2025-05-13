@@ -29,7 +29,7 @@ But enough about me!
 # Let's talk **PEP 750**!
 
 <div v-click><p>Better known as <strong>Template Strings</strong></p></div>
-<div v-click><p><i>Also</i> known as <strong>t-strings</strong></p></div>
+<div v-click><p>...<i>also</i> known as <strong>t-strings</strong></p></div>
 
 ---
 
@@ -126,7 +126,7 @@ t"This is not a string"
 
 ---
 
-# T-strings are **not** strings (2)
+# T-strings are **not** strings <span class="slide-count">(2)</span>
 
 ````md magic-move
 ```python314
@@ -176,7 +176,7 @@ image: /img/f-strings-awesome.png
 backgroundSize: contain
 ---
 
-# F-strings are **awesome**:
+# F-strings **rock**:
 
 &ndash; Powerful
 
@@ -191,9 +191,13 @@ image: /img/f-strings-dangerous.png
 backgroundSize: contain
 ---
 
-# F-strings are frequently **misused**:
+# F-strings get **misused**:
 
-&ndash; Injection vulns
+&ndash; SQL injection
+
+&ndash; XSS in HTML
+
+&ndash; etc.
 
 ---
 layout: image
@@ -205,53 +209,73 @@ backgroundSize: contain
 
 ---
 
-# Bobby Tables
+# Little Bobby Tables
 
 <div class="smaller">
 ````md magic-move
 ```python314
-def get_query(name):
+def get_query(name: str):
 	return f"SELECT * FROM students WHERE name = '{name}'"
 ```
 ```python314
-def get_query(name):
-	return f"SELECT * FROM students WHERE name = '{name}'"
-
-get_query("Robert'); DROP TABLE Students;--")
-```
-```python314
-def get_query(name):
+def get_query(name: str):
 	return f"SELECT * FROM students WHERE name = '{name}'"
 
 query = get_query("Robert'); DROP TABLE Students;--")
 execute(query)  # ☠️
+```
+```python314
+def get_query(name: str):
+	return f"SELECT * FROM students WHERE name = '{name}'"
+
+@app.route('/user/<str:name>')
+def user_data(name: str):
+	query = get_query(name)
+	return execute(query)  # ☠️
 ```
 ````
 </div>
 
 ---
 
-# Bobby HTML-bles
+# Little Bobby, uh, HTML-bles
 
 <div class="smaller">
 ````md magic-move
 ```python314
-def render_user(name):
+def render_user(name: str):
 	return f"<div class='user'>{name}</div>"
 ```
 ```python314
-def render_user(name):
+def render_user(name: str):
 	return f"<div class='user'>{name}</div>"
 
-render_user("<script>alert('Owned!')</script>")
+render_user("<script>alert('Owned!')</script>")  # ☠️
 ```
 ```python314
-def render_user(name):
+def render_user(name: str):
 	return f"<div class='user'>{name}</div>"
 
-@get("/user/:name")
-def user(name: str):
-	return render_user(name)  # 🙈🙊🙉
+@app.route("/user/<str:name>")
+def user_html(name: str):
+	return render_user(name)  # ☠️
 ```
 ````
 </div>
+
+
+---
+
+# T-strings to the **rescue**
+
+<div v-click><p>With <code>Template</code> you can know:</p></div>
+
+<div v-click><p>&ndash; Which parts of the string are <strong>static</strong></p></div>
+<div v-click><p>&ndash; Which parts of the string are <strong>dynamic</strong></p></div>
+
+<div v-click><p>You <i>can't</i> do this with f-strings</p></div>
+
+---
+
+# T-strings to the **rescue** <span class="slide-count">(2)</span>
+
