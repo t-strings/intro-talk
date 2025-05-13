@@ -1,29 +1,32 @@
 ---
 theme: default
 transition: slide-left
-title: "Flask + Template Strings = Heart"
+title: A Whirlwind Tour of Template Strings
 colorSchema: dark
 layout: default
 mdc: true
 ---
-<center><h1>Flask + <strong>Template&nbsp;Strings</strong></h1> = ❤️</center>
+<center><h1>A whirlwind tour of <strong>Template&nbsp;Strings</strong></h1></center>
 
 ---
 
-# Hi, We're **Paul** and **Dave**!
+# Hi, I'm **Dave Peck**.
 
-Dave's an indie dev based in sunny Seattle.
+I'm an independent software developer based in sunny Seattle, Washington. <span class="little">~~☔️~~</span>
 
-Paul is head of developer advocacy at JetBrains.
+<!--
+"independent software developer" is what you say in polite company when you mean "software weirdo who works from home and doesn't have a boss"
 
-We co-authored PEP 750 aka **Template Strings**.
+I have spent most of my career in the Seattle startup community, and have spent
+the last two years working on civic technology projects in tandem with nonprofits
+and local government.
 
+But enough about me!
+-->
 
 ---
 
 # Let's talk **PEP 750**!
-
-TODO
 
 <div v-click><p>Better known as <strong>Template Strings</strong></p></div>
 <div v-click><p><i>Also</i> known as <strong>t-strings</strong></p></div>
