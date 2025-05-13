@@ -210,16 +210,21 @@ backgroundSize: contain
 <div class="smaller">
 ````md magic-move
 ```python314
-def get_user(name):
-	# Here be dragons
-	return f"SELECT * FROM users WHERE name = '{name}'"
+def get_query(name):
+	return f"SELECT * FROM students WHERE name = '{name}'"
 ```
 ```python314
-def get_user_query(name):
-	# Here be dragons
-	return f"SELECT * FROM users WHERE name = '{name}'"
+def get_query(name):
+	return f"SELECT * FROM students WHERE name = '{name}'"
 
-get_user_query("Robert'); DROP TABLE Students;--")
+get_query("Robert'); DROP TABLE Students;--")
+```
+```python314
+def get_query(name):
+	return f"SELECT * FROM students WHERE name = '{name}'"
+
+query = get_query("Robert'); DROP TABLE Students;--")
+execute(query)  # ☠️
 ```
 ````
 </div>
@@ -232,15 +237,21 @@ get_user_query("Robert'); DROP TABLE Students;--")
 ````md magic-move
 ```python314
 def render_user(name):
-	# Here be dragons
 	return f"<div class='user'>{name}</div>"
 ```
 ```python314
 def render_user(name):
-	# Here be dragons
 	return f"<div class='user'>{name}</div>"
 
 render_user("<script>alert('Owned!')</script>")
+```
+```python314
+def render_user(name):
+	return f"<div class='user'>{name}</div>"
+
+@get("/user/:name")
+def user(name: str):
+	return render_user(name)  # 🙈🙊🙉
 ```
 ````
 </div>
