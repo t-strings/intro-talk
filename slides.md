@@ -46,6 +46,8 @@ But enough about me!
 <div v-click><p>New feature shipping in <strong>Python 3.14</strong></p></div>
 <div v-click><p>They <strong>generalize</strong> f-strings</p></div>
 <div v-click><p>They help make f-strings <strong>safer</strong></p></div>
+<div v-click><p>They help make f-strings <strong>more powerful</strong></p></div>
+
 
 ---
 layout: cover
