@@ -28,8 +28,8 @@ But enough about me!
 
 # Let's talk **PEP 750**!
 
-<div v-click><p>better known as <strong>Template Strings</strong></p></div>
-<div v-click><p><i>also</i> known as <strong>t-strings</strong></p></div>
+<div v-click><p>Better known as <strong>Template Strings</strong></p></div>
+<div v-click><p><i>Also</i> known as <strong>t-strings</strong></p></div>
 
 ---
 
@@ -37,21 +37,21 @@ But enough about me!
 
 <div v-click><p><strong>What</strong> are t-strings?</p></div>
 <div v-click><p><strong>Why</strong> are t-strings?</p></div>
-<div v-click><p><s>advanced usage</s></p></div>
+<div v-click><p><s>Advanced usage</s></p></div>
 
 ---
 
 # What are **t-strings**?
 
-<div v-click><p>new feature shipping in <strong>Python 3.14</strong></p></div>
-<div v-click><p>they <strong>generalize</strong> f-strings</p></div>
-<div v-click><p>they help make f-strings <strong>safer</strong></p></div>
+<div v-click><p>New feature shipping in <strong>Python 3.14</strong></p></div>
+<div v-click><p>They <strong>generalize</strong> f-strings</p></div>
+<div v-click><p>They help make f-strings <strong>safer</strong></p></div>
 
 ---
 layout: cover
 ---
 
-# A generalization of **f-strings**
+# Generalizing **f-strings**
 
 ---
 
@@ -108,16 +108,87 @@ type(t"Hello, {name}!")
 ```
 ````
 
-<div v-click><p>wait, <strong>what's this</strong>?</p></div>
+<div v-click><p>(Wait, <strong>what's this</strong>?)</p></div>
 
 ---
 
-# t-strings are **not** strings
+# T-strings are **not** strings
 
-<div v-click><p>you write them like they <i>are</i>...</p></div>
+<div v-click><p>You write them like they <i>are</i>...</p></div>
 <div v-click>
 ```python314
 t"This is not a string"
 ```
 </div>
-<div v-click><p>but they evaluate to a new type, <strong><code>Template</code></strong></p></div>
+<div v-click><p>But they evaluate to a new type, <code>Template</code></p></div>
+
+---
+
+# T-strings are **not** strings (2)
+
+````md magic-move
+```python314
+str(t"Please be a string!")
+```
+```python314
+str(t"Please be a string!")
+# "Template(
+#    strings=('Please be a string!',), 
+#    interpolations=(),
+# )"
+```
+````
+
+<div v-click><p>You have to <strong>process</strong> templates to use them</p></div>
+
+---
+
+# Processing templates
+
+<div v-click>
+<p>Given a <code>Template</code>, you can write or call <strong>custom code</strong> to:</p>
+</div>
+<div v-click>
+<p>&ndash; Turn them into a <code>str</code></p>
+</div>
+<div v-click>
+<p>&ndash; Turn them into any <i>other</i> type</p>
+</div>
+
+---
+
+# Yes, but **why**?
+
+<div v-click><p>Let's talk about f-strings...</p></div>
+
+---
+
+# F-strings get used a **lot**!
+
+---
+layout: image-right
+image: /assets/img/f-strings-awesome.png
+backgroundSize: contain
+---
+
+# F-strings are **awesome**:
+
+&ndash; Powerful
+
+&ndash; Readable
+
+&ndash; Elegant syntax
+
+
+---
+layout: image-right
+image: /assets/img/f-strings-dangerous.png
+backgroundSize: contain
+---
+
+# F-strings get **misused**:
+
+&ndash; Injection vulns
+
+
+

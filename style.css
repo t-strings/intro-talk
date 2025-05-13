@@ -130,8 +130,8 @@ strong {
 		font-family: "apex-predator", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		color: color-mix(in srgb, var(--wash) 75%, white 25%);
 		font-weight: bold;
-		line-height: 1.5em;
-		padding-bottom: 0.25em;
+		line-height: 1em;
+		padding-bottom: 0.5em;
 	}
 
 	h1 strong,
