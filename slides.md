@@ -172,7 +172,7 @@ str(t"Please be a string!")
 
 ---
 layout: image-right
-image: /assets/img/f-strings-awesome.png
+image: /img/f-strings-awesome.png
 backgroundSize: contain
 ---
 
@@ -187,7 +187,7 @@ backgroundSize: contain
 
 ---
 layout: image-right
-image: /assets/img/f-strings-dangerous.png
+image: /img/f-strings-dangerous.png
 backgroundSize: contain
 ---
 
@@ -197,7 +197,7 @@ backgroundSize: contain
 
 ---
 layout: image
-image: /assets/img/bobby-tables-from-xkcd-by-randall-munroe.png
+image: /img/bobby-tables-from-xkcd-by-randall-munroe.png
 backgroundSize: contain
 ---
 
