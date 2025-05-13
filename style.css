@@ -23,6 +23,10 @@ strong {
 	margin-bottom: 0.25em;
 }
 
+.smaller .shiki {
+	font-size: 1.5em !important;
+}
+
 @font-face {
 	font-family: "apex-predator";
 	src: url("./fonts/ap-400.woff2") format("woff2"), url("./fonts/ap-400.woff") format("woff"),
@@ -105,6 +109,18 @@ strong {
 	.little {
 		color: var(--sunset);
 		opacity: 0.75;
+	}
+
+	.bottom-out {
+		font-size: 0.5em;
+		position: absolute;
+		display: flex;
+		width: 100%;
+		padding-right: 6.5em;
+		/* i literally have no idea why 6.5em works but let's move on */
+		align-content: center;
+		justify-content: center;
+		bottom: 0;
 	}
 
 	li,

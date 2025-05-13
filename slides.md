@@ -148,7 +148,10 @@ str(t"Please be a string!")
 # Processing templates
 
 <div v-click>
-<p>Given a <code>Template</code>, you can write or call <strong>custom code</strong> to:</p>
+<p>Templates are <strong>normal</strong> Python objects</p>
+</div>
+<div v-click>
+<p>You can write or call code to:</p>
 </div>
 <div v-click>
 <p>&ndash; Turn them into a <code>str</code></p>
@@ -188,9 +191,56 @@ image: /assets/img/f-strings-dangerous.png
 backgroundSize: contain
 ---
 
-# F-strings get **misused**:
+# F-strings are frequently **misused**:
 
 &ndash; Injection vulns
 
+---
+layout: image
+image: /assets/img/bobby-tables-from-xkcd-by-randall-munroe.png
+backgroundSize: contain
+---
 
+<div class="bottom-out"><center><p>(with apologies to randall munroe)</p></center></div>
 
+---
+
+# Bobby Tables
+
+<div class="smaller">
+````md magic-move
+```python314
+def get_user(name):
+	# Here be dragons
+	return f"SELECT * FROM users WHERE name = '{name}'"
+```
+```python314
+def get_user_query(name):
+	# Here be dragons
+	return f"SELECT * FROM users WHERE name = '{name}'"
+
+get_user_query("Robert'); DROP TABLE Students;--")
+```
+````
+</div>
+
+---
+
+# Bobby HTML-bles
+
+<div class="smaller">
+````md magic-move
+```python314
+def render_user(name):
+	# Here be dragons
+	return f"<div class='user'>{name}</div>"
+```
+```python314
+def render_user(name):
+	# Here be dragons
+	return f"<div class='user'>{name}</div>"
+
+render_user("<script>alert('Owned!')</script>")
+```
+````
+</div>
