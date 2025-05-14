@@ -116,18 +116,22 @@ template = t"Hello, {friend}!" # 😊
 
 ````md magic-move
 ```python314
+name = "world"
 type(f"Hello, {name}!")
 ```
 ```python314
+name = "world"
 type(f"Hello, {name}!")
 # <class 'str'>
 ```
 ```python314
+name = "world"
 type(f"Hello, {name}!")
 # <class 'str'>
 type(t"Hello, {name}!")
 ```
 ```python314
+name = "world"
 type(f"Hello, {name}!")
 # <class 'str'>
 type(t"Hello, {name}!")
@@ -359,6 +363,19 @@ for item in template:
 ```python314
 name = "world"
 template = t"<div>{name}</div>"
+for item in template:
+	if isinstance(item, str):
+		print("static:", item)
+	else:
+		# `item` is a `string.templatelib.Interpolation`
+		print("dynamic:", item.value)
+# static: <div>
+# dynamic: world
+# static: </div>
+```
+```python314
+name = "world"
+template = t"<div>{name}</div>"
 parts = []
 for item in template:
 	if isinstance(item, str):
@@ -549,7 +566,7 @@ def user_details(user: User, attribs: dict | None = None) -> Template:
 def user_page(uid: str):
 	user = get_user_from_db(uid)
 	attribs = {"id": uid, "class": ["user", "active"]}
-	return html(user_details(user, attribs)) # 🪄
+	return html(user_details(user, attribs))  # 🪄🪄🪄🪄🪄🪄🪄
 ```
 ````
 </div>
