@@ -24,6 +24,10 @@
 	color: var(--sunset);
 }
 
+.tight {
+	margin-bottom: -1em;
+}
+
 strong {
 	color: var(--sunset);
 }
@@ -40,7 +44,7 @@ strong {
 }
 
 .smallest .shiki {
-	font-size: 1em !important;
+	font-size: 1.125em !important;
 }
 
 @font-face {
