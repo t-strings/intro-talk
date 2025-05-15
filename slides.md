@@ -329,6 +329,52 @@ template = t"<div>{name}</div>"
 ```python314
 name = "world"
 template = t"<div>{name}</div>"
+list(template)
+# ["<div>", Interpolation(value="world"), "</div>"]
+```
+```python314
+name = "world"
+template = t"<div>{name}</div>"
+template.strings
+# ("<div>", "</div>")
+```
+```python314
+name = "world"
+template = t"<div>{name}</div>"
+template.interpolations
+# (Interpolation(value="world"),)
+```
+```python314
+name = "world"
+template = t"<div>{name}</div>"
+template.interpolations
+# (Interpolation(
+#    value="world",
+#    expression="name",
+#    conversion=None,
+#    format_spec="",
+# ))
+```
+```python314
+name = "world"
+template = t"<div>{name!s:>10}</div>"
+template.interpolations
+# (Interpolation(
+#    value="world",
+#    expression="name",
+#    conversion="s",
+#    format_spec=">10",
+# ))
+```
+```python314
+name = "world"
+template = t"<div>{name}</div>"
+list(template)
+# ["<div>", Interpolation("world"), "</div>"]
+```
+```python314
+name = "world"
+template = t"<div>{name}</div>"
 for item in template:
 	...
 ```
@@ -367,11 +413,7 @@ for item in template:
 	if isinstance(item, str):
 		print("static:", item)
 	else:
-		# `item` is a `string.templatelib.Interpolation`
 		print("dynamic:", item.value)
-# static: <div>
-# dynamic: world
-# static: </div>
 ```
 ```python314
 name = "world"
