@@ -617,7 +617,18 @@ def user_page(uid: str):
 
 # Down the rabbit hole
 
-We saw a simple example with HTML:
+<div class="smaller">
+```python314
+def html(template: Template) -> HTMLElement:
+	...
+```
+</div>
+
+---
+
+# Down the rabbit hole <span class="slide-count">(2)</span>
+
+We saw a simple implementation:
 
 <div class="smallest">
 ```python314
@@ -636,7 +647,7 @@ result = "".join(parts)
 
 # Down the rabbit hole <span class="slide-count">(2)</span>
 
-And we saw hints of something fancier:
+And we saw how a fancier implementation could do more:
 
 <div class="smallest">
 ```python314
