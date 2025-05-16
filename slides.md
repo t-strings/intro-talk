@@ -624,6 +624,8 @@ def html(template: Template) -> HTMLElement:
 ```
 </div>
 
+How does this _work_?
+
 ---
 
 # Down the rabbit hole <span class="slide-count">(2)</span>
@@ -645,9 +647,9 @@ result = "".join(parts)
 
 ---
 
-# Down the rabbit hole <span class="slide-count">(2)</span>
+# Down the rabbit hole <span class="slide-count">(3)</span>
 
-And we saw how a fancier implementation could do more:
+And something fancier:
 
 <div class="smallest">
 ```python314
@@ -661,7 +663,7 @@ str(element)
 
 ---
 
-# Down the rabbit hole <span class="slide-count">(3)</span>
+# Down the rabbit hole <span class="slide-count">(4)</span>
 
 <div v-click><p>The <code>html()</code> function is doing a lot:</p></div>
 
