@@ -6,7 +6,8 @@ colorSchema: dark
 layout: default
 mdc: true
 ---
-<center><h1>A whirlwind tour of <strong>Template&nbsp;Strings</strong></h1></center>
+
+<h1 class="centered">A whirlwind tour of <strong>Template&nbsp;Strings</strong></h1>
 
 ---
 
@@ -29,7 +30,7 @@ But enough about me!
 # Let's talk **PEP 750**!
 
 <div v-click><p>Better known as <strong>Template Strings</strong></p></div>
-<div v-click><p>...<i>also</i> known as <strong>t-strings</strong></p></div>
+<div v-click><p>...<i>best</i> known as <strong>t-strings</strong></p></div>
 
 ---
 
@@ -37,23 +38,21 @@ But enough about me!
 
 <div v-click><p><strong>What</strong> are t-strings?</p></div>
 <div v-click><p><strong>Why</strong> are t-strings?</p></div>
-<div v-click><p><s>Advanced usage</s></p></div>
+<div v-click><p><strong>How</strong> do I use t-strings?</p></div>
+<div v-click><p><strong>Where</strong> to next?</p></div>
 
 ---
 
 # What are **t-strings**?
 
 <div v-click><p>New feature shipping in <strong>Python 3.14</strong></p></div>
-<div v-click><p>They <strong>generalize</strong> f-strings</p></div>
+<div v-click><p>They're like f-strings with <strong>superpowers</strong></p></div>
 <div v-click><p>They help make f-strings <strong>safer</strong></p></div>
 <div v-click><p>They help make f-strings more <strong>flexible</strong></p></div>
 
-
----
-layout: cover
 ---
 
-# **Generalizing** f-strings
+# Like f-strings
 
 ---
 
@@ -86,64 +85,46 @@ caption = t"For only ${price:.2f}!"
 ````
 
 ---
+transition: fade
+---
 
 # Both are **eagerly evaluated**
 
-````md magic-move
 ```python314
 friend = "World"
 greeting = f"Hello, {friend}!"
+template = t"Hello, {friend}!"
 ```
+
+---
+
+# Both are **eagerly evaluated**
+
 ```python314
 # friend = "World"
 greeting = f"Hello, {friend}!" # 💣
-```
-```python314
-# friend = "World"
 template = t"Hello, {friend}!" # 💣
 ```
-```python314
-friend = "World"
-template = t"Hello, {friend}!" # 😊
-```
-````
 
+--- 
 
+# Template strings have **superpowers**
 
 ---
 
-# But t-strings are **different**:
+# F-strings are **plain strings**
 
-````md magic-move
-```python314
-name = "world"
-type(f"Hello, {name}!")
-```
+<div v-click>
 ```python314
 name = "world"
 type(f"Hello, {name}!")
 # <class 'str'>
 ```
-```python314
-name = "world"
-type(f"Hello, {name}!")
-# <class 'str'>
-type(t"Hello, {name}!")
-```
-```python314
-name = "world"
-type(f"Hello, {name}!")
-# <class 'str'>
-type(t"Hello, {name}!")
-# <class 'string.templatelib.Template'>
-```
-````
-
-<div v-click><p>(Wait, <strong>what's this</strong>?)</p></div>
+</div>
 
 ---
 
-# T-strings are **not** strings
+# T-strings are **not strings**
 
 <div v-click><p>You write them like they <i>are</i>...</p></div>
 <div v-click>
@@ -153,28 +134,100 @@ t"This is not a string"
 </div>
 <div v-click><p>But they evaluate to a new type, <code>Template</code></p></div>
 
+
+---
+transition: fade
 ---
 
-# T-strings are **not** strings <span class="slide-count">(2)</span>
+# The `Template` type
+
+<div v-click><p>Gives you access to the <strong>parts</strong> of your string</p></div>
+
+<div v-click><p>&ndash; The <strong>static</strong> parts</p></div>
+
+<div v-click><p>&ndash; The <strong>{substituted}</strong> parts</p></div>
+
+---
+transition: fade
+---
+
+# The `Template` type
+
+<div><p>Gives you access to the <strong>parts</strong> of your string</p></div>
+<div><p>&ndash; The <strong>static</strong> parts</p></div>
+<div><p>&ndash; The <strong>{interpolated}</strong> parts</p></div>
+
+
+---
+
+# Let's look **inside** a Template
 
 ````md magic-move
 ```python314
-str(t"Please be a string!")
+name = "world"
+template = t"Hi {name}!"
 ```
 ```python314
-str(t"Please be a string!")
-# "Template(
-#    strings=('Please be a string!',),
-#    interpolations=(),
-# )"
+name = "world"
+template = t"Hi {name}!"
+list(template)
+# ["Hi ", Interpolation("world"), "!"]
 ```
 ````
 
-<div v-click><p>You have to <strong>process</strong> templates to use them</p></div>
+---
+
+# lower UPPER, Inc.
+
+<div class="smaller">
+````md magic-move
+```python314
+name = "world"
+template = t"Hello {name}"
+```
+```python314
+name = "world"
+template = t"Hello {name}"
+parts: list[str] = []
+for item in template:
+	...
+```
+```python314
+name = "world"
+template = t"Hello {name}"
+parts: list[str] = []
+for item in template:
+	if isinstance(item, str):
+		parts.append(item.lower())
+```
+```python314
+name = "world"
+template = t"Hello {name}"
+parts: list[str] = []
+for item in template:
+	if isinstance(item, str):
+		parts.append(item.lower())
+	else:
+		parts.append(item.value.upper())
+```
+```python314
+name = "world"
+template = t"Hello {name}"
+parts: list[str] = []
+for item in template:
+	if isinstance(item, str):
+		parts.append(item.lower())
+	else:
+		parts.append(item.value.upper())
+result = "".join(parts)
+# "hello WORLD"
+```
+````
+</div>
 
 ---
 
-# Processing templates
+# **Processing** templates
 
 <div v-click>
 <p>Templates are <strong>normal</strong> Python objects</p>
@@ -228,13 +281,18 @@ backgroundSize: contain
 
 &ndash; etc.
 
+
+---
+
+# T-strings make strings **safer**
+
 ---
 layout: image
 image: /img/bobby-tables-from-xkcd-by-randall-munroe.png
 backgroundSize: contain
 ---
 
-<div class="bottom-out"><center><p>(with apologies to randall munroe)</p></center></div>
+<div class="bottom-out centered"><p>(with apologies to randall munroe)</p></div>
 
 ---
 
@@ -243,257 +301,42 @@ backgroundSize: contain
 <div class="smaller">
 ````md magic-move
 ```python314
-def get_query(name: str):
-	return f"SELECT * FROM students WHERE name = '{name}'"
-```
-```python314
-def get_query(name: str):
-	return f"SELECT * FROM students WHERE name = '{name}'"
+from db import execute
 
-query = get_query("Robert'); DROP TABLE students;--")
-execute(query)  # ☠️
+def get_student(name: str):
+	return execute(
+		f"SELECT * FROM students WHERE name = '{name}'"
+	)
 ```
 ```python314
-def get_query(name: str):
-	return f"SELECT * FROM students WHERE name = '{name}'"
+from db import execute
 
-def execute(query: str):  # ☠️
-	# We're already sunk because query is just a string
-	# and we don't know if they really want Robert');
-	...
+def get_student(name: str):
+	return execute(
+		f"SELECT * FROM students WHERE name = '{name}'"
+	)
 
-query = get_query("Robert'); DROP TABLE students;--")
-execute(query)  # ☠️
+get_student("John")
 ```
 ```python314
-def get_query(name: str):
-	return f"SELECT * FROM students WHERE name = '{name}'"
+from db import execute
 
-@app.route('/user/<str:name>')
-def user_data(name: str):
-	query = get_query(name)
-	return execute(query)  # ☠️
-```
-````
-</div>
+def get_student(name: str):
+	return execute(
+		f"SELECT * FROM students WHERE name = '{name}'"
+	)
 
----
+get_student("Robert'); DROP TABLE students;--") # ☠️ ☠️ ☠️
+```
+```python314
+from db import execute_t
 
-# Little Bobby, uh, HTML-bles
+def get_student(name: str):
+	return execute_t(
+		t"SELECT * FROM students WHERE name = '{name}'"
+	)
 
-<div class="smaller">
-````md magic-move
-```python314
-def render_user(name: str):
-	return f"<div class='user'>{name}</div>"
-```
-```python314
-def render_user(name: str):
-	return f"<div class='user'>{name}</div>"
-
-render_user("<script>alert('pwned')</script>")  # ☠️
-```
-```python314
-def render_user(name: str):
-	return f"<div class='user'>{name}</div>"
-
-@app.route("/user/<str:name>")
-def user_html(name: str):
-	return render_user(name)  # ☠️
-```
-````
-</div>
-
-
----
-
-# T-strings make strings **safer**
-
-<div v-click><p>With <code>Template</code> you can know:</p></div>
-
-<div v-click><p>&ndash; Which parts of the string are <strong>static</strong></p></div>
-<div v-click><p>&ndash; Which parts of the string are <strong>dynamic</strong></p></div>
-
-<div v-click><p>You <i>can't</i> do this with f-strings</p></div>
-
----
-
-# T-strings make strings **safer** <span class="slide-count">(2)</span>
-
-<div class="smaller">
-````md magic-move
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-list(template)
-# ["<div>", Interpolation(value="world"), "</div>"]
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-template.strings
-# ("<div>", "</div>")
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-template.interpolations
-# (Interpolation(value="world"),)
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-template.interpolations
-# (Interpolation(
-#    value="world",
-#    expression="name",
-#    conversion=None,
-#    format_spec="",
-# ))
-```
-```python314
-name = "world"
-template = t"<div>{name!s:>10}</div>"
-template.interpolations
-# (Interpolation(
-#    value="world",
-#    expression="name",
-#    conversion="s",
-#    format_spec=">10",
-# ))
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-list(template)
-# ["<div>", Interpolation("world"), "</div>"]
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-for item in template:
-	...
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-for item in template:
-	if isinstance(item, str):
-		print("static:", item)
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-for item in template:
-	if isinstance(item, str):
-		print("static:", item)
-	else:
-		print("dynamic:", item.value)
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-for item in template:
-	if isinstance(item, str):
-		print("static:", item)
-	else:
-		print("dynamic:", item.value)
-# static: <div>
-# dynamic: world
-# static: </div>
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-for item in template:
-	if isinstance(item, str):
-		print("static:", item)
-	else:
-		print("dynamic:", item.value)
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-parts = []
-for item in template:
-	if isinstance(item, str):
-		print("static:", item)
-	else:
-		print("dynamic:", item.value)
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-parts = []
-for item in template:
-	if isinstance(item, str):
-		parts.append(item)
-	else:
-		print("dynamic:", item.value)
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-parts = []
-for item in template:
-	if isinstance(item, str):
-		parts.append(item)
-	else:
-		parts.append(escape(item.value))
-```
-```python314
-name = "world"
-template = t"<div>{name}</div>"
-parts = []
-for item in template:
-	if isinstance(item, str):
-		parts.append(item)
-	else:
-		parts.append(escape(item.value))
-result = "".join(parts)
-# "<div>world</div>"
-```
-```python314
-name = "<script>alert('pwned')</script>"
-template = t"<div>{name}</div>"
-parts = []
-for item in template:
-	if isinstance(item, str):
-		parts.append(item)
-	else:
-		parts.append(escape(item.value))
-result = "".join(parts)
-# "<div>&lt;script&gt;alert('pwned')&lt;/script&gt;</div>" ❤️
-```
-```python314
-from some_library import html
-
-name = "<script>alert('pwned')</script>"
-template = t"<div>{name}</div>"
-result = html(template)
-# "<div>&lt;script&gt;alert('pwned')&lt;/script&gt;</div>" ❤️
-```
-```python314
-from some_library import html
-
-name = "<script>alert('pwned')</script>"
-template = t"<div>{name}</div>"
-result = html(template)
-# <class 'HTMLElement'>
-```
-```python314
-from some_library import html
-
-name = "<script>alert('pwned')</script>"
-template = t"<div>{name}</div>"
-result = html(template)
-# <class 'HTMLElement'>
-str(result)
-# "<div>&lt;script&gt;alert('pwned')&lt;/script&gt;</div>" ❤️
+get_student("Robert'); DROP TABLE students;--") # 🎉 🦄 👍
 ```
 ````
 </div>
@@ -502,6 +345,11 @@ str(result)
 
 # T-strings make strings **flexible**
 
+
+---
+
+# Let's talk about HTML
+
 <div class="smaller">
 ````md magic-move
 ```python314
@@ -510,47 +358,48 @@ from some_library import html
 ```python314
 from some_library import html
 
-name = "world"
-element = html(t"<div>{name}</div>")
-str(element)
-# "<div>world</div>"
+user = get_user_from_db(...)
+result = html(t"<div>{user.name}</div>")
+# "<div>John</div>"
 ```
 ```python314
 from some_library import html
 
-name = "world"
-uid = "user-1"
-element = html(t"<div>{name}</div>")
-str(element)
-# "<div>world</div>"
+user = get_user_from_db(...)
+result = html(t"<div>{user.name}</div>")
+# <class 'HTMLElement'>
 ```
 ```python314
 from some_library import html
 
-name = "world"
-uid = "user-1"
-element = html(t"<div id={uid}>{name}</div>")
-str(element)
-# "<div id='user-1'>world</div>"
+user = get_user_from_db(...)
+element = html(t"<div>{user.name}</div>")
+# <class 'HTMLElement'>
 ```
 ```python314
 from some_library import html
 
-name = "world"
-uid = "user-1"
-classes = ["user", "active"]
-element = html(t"<div id={uid} class={classes}>{name}</div>")
+user = get_user_from_db(...)
+element = html(t"<div>{user.name}</div>")
 str(element)
-# "<div id='user-1' class='user active'>world</div>"
+# "<div>John</div>"
 ```
 ```python314
 from some_library import html
 
-name = "world"
-attribs = {"id": "user-1", "class": ["user", "active"]}
+user = get_user_from_db(...)
+element = html(t"<div id={user.id}>{user.name}</div>")
+str(element)
+# "<div id='user-123'>John</div>"
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
+attribs = {"id": user.id, "class": ["user", "active"]}
 element = html(t"<div {attribs}>{name}</div>")
 str(element)
-# "<div id='user-1' class='user active'>world</div>"
+# "<div id='user-123' class='user active'>John</div>"
 ```
 ````
 </div>
@@ -558,114 +407,9 @@ str(element)
 
 ---
 
-# T-strings make strings **flexible**
+# **Fancy** template processing
 
-<div class="smallest">
-````md magic-move
-```python314
-from some_library import html
-```
-```python314
-from some_library import html
-
-def user_image(user: User) -> Template:
-	return t"<img src={user.image_url} alt={user.name} />"
-```
-```python314
-from some_library import html
-
-def user_image(user: User) -> Template:
-	return t"<img src={user.image_url} alt={user.name} />"
-
-def user_details(user: User, attribs: dict | None = None) -> Template:
-	return t"<span {attribs}>{user.name}{user_image(user)}</span>"
-```
-```python314
-from some_library import html
-
-def user_image(user: User) -> Template:
-	return t"<img src={user.image_url} alt={user.name} />"
-
-def user_details(user: User, attribs: dict | None = None) -> Template:
-	return t"<span {attribs}>{user.name}{user_image(user)}</span>"
-
-@app.route("/user/<str:uid>")
-def user_page(uid: str):
-	user = get_user_from_db(uid)
-	attribs = {"id": uid, "class": ["user", "active"]}
-	return html(user_details(user, attribs))
-```
-```python314
-from some_library import html
-
-def user_image(user: User) -> Template:
-	return t"<img src={user.image_url} alt={user.name} />"
-
-def user_details(user: User, attribs: dict | None = None) -> Template:
-	return t"<span {attribs}>{user.name}{user_image(user)}</span>"
-
-@app.route("/user/<str:uid>")
-def user_page(uid: str):
-	user = get_user_from_db(uid)
-	attribs = {"id": uid, "class": ["user", "active"]}
-	return html(user_details(user, attribs))  # 🪄🪄🪄🪄🪄🪄🪄
-```
-````
-</div>
-
----
-
-# Down the rabbit hole
-
-<div class="smaller">
-```python314
-def html(template: Template) -> HTMLElement:
-	...
-```
-</div>
-
-How does this _work_?
-
----
-
-# Down the rabbit hole <span class="slide-count">(2)</span>
-
-We saw a simple implementation:
-
-<div class="smallest">
-```python314
-parts = []
-for item in template:
-	if isinstance(item, str):
-		parts.append(item)
-	else:
-		parts.append(escape(item.value))
-result = "".join(parts)
-# "<div>&lt;script&gt;alert('pwned')&lt;/script&gt;</div>" ❤️
-```
-</div>
-
----
-
-# Down the rabbit hole <span class="slide-count">(3)</span>
-
-And something fancier:
-
-<div class="smallest">
-```python314
-name = "world"
-attribs = {"id": "user-1", "class": ["user", "active"]}
-element = html(t"<div {attribs}>{name}</div>")
-str(element)
-# "<div id='user-1' class='user active'>world</div>"
-```
-</div>
-
----
-
-# Down the rabbit hole <span class="slide-count">(4)</span>
-
-<div v-click><p>The <code>html()</code> function is doing a lot:</p></div>
+<div v-click><p><code>html()</code> is doing a lot:</p></div>
 
 <div v-click class="tight"><p>&ndash; <strong>Parsing</strong> the <code>Template</code></p></div>
 <div v-click class="tight"><p>&ndash; Examining each substitution's <strong>type</strong> and <strong>position</strong> in the underlying <strong>grammar</strong></p></div>
@@ -673,10 +417,16 @@ str(element)
 
 ---
 
+# Where to **next**?
+
+<div v-click><p>Libraries!</p></div>
+<div v-click><p>Linters, formatters, type checkers!</p></div>
+<div v-click><p>Get involved!</p></div>
+
+---
+
 # Thanks!
 
-Q&A
+See **t-strings.help** for more
 
-I'm **Dave Peck**. 
-
-You can find me at **davepeck.org**
+Find me at **davepeck.org**

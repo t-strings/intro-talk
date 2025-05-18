@@ -4,6 +4,13 @@
 	--sunset: #d19d4d;
 }
 
+.centered {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
 .wash {
 	color: var(--wash);
 }
