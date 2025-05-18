@@ -15,22 +15,12 @@ mdc: true
 
 I'm an independent software developer based in sunny Seattle, Washington. <span class="little">~~☔️~~</span>
 
-<!--
-"independent software developer" is what you say in polite company when you mean "software weirdo who works from home and doesn't have a boss"
-
-I have spent most of my career in the Seattle startup community, and have spent
-the last two years working on civic technology projects in tandem with nonprofits
-and local government.
-
-But enough about me!
--->
-
 ---
 
 # Let's talk **PEP 750**!
 
 <div v-click><p>Better known as <strong>Template Strings</strong></p></div>
-<div v-click><p>...<i>best</i> known as <strong>t-strings</strong></p></div>
+<div v-click><p>...maybe <i>best</i> known as <strong>t-strings</strong></p></div>
 
 ---
 
@@ -52,7 +42,7 @@ But enough about me!
 
 ---
 
-# Like f-strings
+# They're **like** f-strings
 
 ---
 
@@ -409,11 +399,11 @@ str(element)
 
 # **Fancy** template processing
 
-<div v-click><p><code>html()</code> is doing a lot:</p></div>
+<div v-click><p><code>html()</code> has to do a lot:</p></div>
 
-<div v-click class="tight"><p>&ndash; <strong>Parsing</strong> the <code>Template</code></p></div>
-<div v-click class="tight"><p>&ndash; Examining each substitution's <strong>type</strong> and <strong>position</strong> in the underlying <strong>grammar</strong></p></div>
-<div v-click class="tight"><p>&ndash; Deciding how to <strong>render</strong> each value</p></div>
+<div v-click class="tight"><p>&ndash; <strong>Parse</strong> the <code>Template</code></p></div>
+<div v-click class="tight"><p>&ndash; Examine each substitution's <strong>type</strong> and <strong>position</strong> in the underlying <strong>grammar</strong></p></div>
+<div v-click class="tight"><p>&ndash; Decide how to <strong>render</strong> each value</p></div>
 
 ---
 
@@ -421,7 +411,7 @@ str(element)
 
 <div v-click><p>Libraries!</p></div>
 <div v-click><p>Linters, formatters, type checkers!</p></div>
-<div v-click><p>Get involved!</p></div>
+<div v-click><p>Example code!</p></div>
 
 ---
 
@@ -430,3 +420,5 @@ str(element)
 See **t-strings.help** for more
 
 Find me at **davepeck.org**
+
+Please say hello and get involved!
