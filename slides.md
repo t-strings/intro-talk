@@ -24,7 +24,7 @@ I'm an independent software developer based in sunny Seattle, Washington. <span 
 
 ---
 
-# We'll cover:
+# A whirlwind tour:
 
 <div v-click><p><strong>What</strong> are t-strings?</p></div>
 <div v-click><p><strong>Why</strong> are t-strings?</p></div>
@@ -96,9 +96,9 @@ greeting = f"Hello, {friend}!" # 💣
 template = t"Hello, {friend}!" # 💣
 ```
 
---- 
+---
 
-# Template strings have **superpowers**
+# F-strings with **superpowers**
 
 ---
 
@@ -123,6 +123,7 @@ t"This is not a string"
 ```
 </div>
 <div v-click><p>But they evaluate to a new type, <code>Template</code></p></div>
+<div v-click><p><code>string.templatelib.Template</code></p></div>
 
 
 ---
