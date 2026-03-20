@@ -7,7 +7,7 @@ layout: default
 mdc: true
 ---
 
-<h1 class="centered"><strong>t-strings: f-strings with superpowers</strong></h1>
+<h1 class="centered"><strong>t-strings:</strong><br />f-strings with superpowers</h1>
 
 ---
 
@@ -24,19 +24,18 @@ I'm an independent software developer based in sunny Seattle, Washington. <span 
 
 ---
 
-# A whirlwind tour:
+# A gentle tour:
 
 <div v-click><p><strong>What</strong> are t-strings?</p></div>
 <div v-click><p><strong>Why</strong> are t-strings?</p></div>
-<div v-click><p><strong>How</strong> do I process t-strings?</p></div>
-<div v-click><p><strong>What</strong> can I do with t-string libraries?</p></div>
-<div v-click><p><strong>Where</strong> to next?</p></div>
+<div v-click><p><strong>How</strong> do I use t-strings?</p></div>
+<div v-click><p><strong>What's</strong> next in t-strings?</p></div>
 
 ---
 
 # What are **t-strings**?
 
-<div v-click><p>New feature shipping in <strong>Python 3.14</strong></p></div>
+<div v-click><p>New feature in <strong>Python 3.14</strong></p></div>
 <div v-click><p>They're like f-strings with <strong>superpowers</strong></p></div>
 <div v-click><p>They help make f-strings <strong>safer</strong></p></div>
 <div v-click><p>They help make f-strings more <strong>flexible</strong></p></div>
@@ -169,36 +168,17 @@ list(template)
 
 ---
 
-# The `Interpolation` type
-
-<div v-click>
-```python314
-class Interpolation:
-    value: object          # the result
-    expression: str        # source text
-    conversion: str | None # !r, !s, !a
-    format_spec: str       # e.g. ".2f"
-```
-</div>
-
----
-
-# **Conversions** and **format specs**
+# And **inside** an Interpolation
 
 ````md magic-move
 ```python314
-name = "World"
-template = t"Hello {name!r}"
-interp = template.interpolations[0]
-interp.value       # "World"
-interp.conversion  # "r"
+name = "world"
+t = t"Hi {name}!"
 ```
 ```python314
-value = 42
-template = t"Result: {value:.2f}"
-interp = template.interpolations[0]
-interp.value       # 42
-interp.format_spec # ".2f"
+name = "world"
+t = t"Hi {name}!"
+t.interpolations[0].value # "world"
 ```
 ````
 
@@ -353,8 +333,7 @@ def get_student(name: str):
         f"SELECT * FROM students WHERE name = '{name}'"
     )
 
-get_student("Robert'); DROP TABLE students;--")
-# ☠️ ☠️ ☠️
+get_student("Robert'); DROP TABLE students;--")  # ☠️ ☠️ ☠️
 ```
 ```python314
 from db import execute_t
@@ -364,8 +343,7 @@ def get_student(name: str):
         t"SELECT * FROM students WHERE name = '{name}'"
     )
 
-get_student("Robert'); DROP TABLE students;--")
-# 🎉 🦄 👍
+get_student("Robert'); DROP TABLE students;--")  # 🎉 🦄 👍
 ```
 ````
 </div>
@@ -373,6 +351,33 @@ get_student("Robert'); DROP TABLE students;--")
 ---
 
 # T-strings make strings **flexible**
+
+
+---
+
+# Doing **cool stuff** with t-strings
+
+
+---
+transition: wtf-enter
+---
+
+# But first: time for a **side quest**
+
+
+---
+layout: image
+image: /img/f-strings-wtf.png
+---
+
+
+
+---
+
+Wow
+
+
+
 
 ---
 

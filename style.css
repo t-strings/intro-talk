@@ -116,6 +116,51 @@ strong {
 	font-stretch: normal;
 }
 
+/* goofy "wtf" transition: spin + zoom + bounce in */
+.wtf-enter-enter-active {
+	animation: wtf-spin-zoom 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.wtf-enter-leave-active {
+	animation: wtf-yeet 0.6s ease-in both;
+}
+
+@keyframes wtf-spin-zoom {
+	0% {
+		transform: scale(0) rotate(-1080deg);
+		opacity: 0;
+		filter: blur(20px) hue-rotate(180deg);
+	}
+	40% {
+		transform: scale(1.4) rotate(20deg);
+		opacity: 1;
+		filter: blur(5px) hue-rotate(90deg);
+	}
+	60% {
+		transform: scale(0.8) rotate(-10deg);
+		filter: blur(0) hue-rotate(45deg);
+	}
+	80% {
+		transform: scale(1.1) rotate(5deg);
+		filter: hue-rotate(10deg);
+	}
+	100% {
+		transform: scale(1) rotate(0deg);
+		filter: hue-rotate(0deg);
+	}
+}
+
+@keyframes wtf-yeet {
+	0% {
+		transform: scale(1) translateX(0) rotate(0deg);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(0.2) translateX(-150%) rotate(720deg);
+		opacity: 0;
+	}
+}
+
 .slidev-vclick-target {
 	transition: all 0.25s ease-out;
 }
