@@ -1,13 +1,13 @@
 ---
 theme: default
 transition: slide-left
-title: A Whirlwind Tour of Template Strings
+title: "t-strings: f-strings with superpowers"
 colorSchema: dark
 layout: default
 mdc: true
 ---
 
-<h1 class="centered">A whirlwind tour of <strong>Template&nbsp;Strings</strong></h1>
+<h1 class="centered"><strong>t-strings: f-strings with superpowers</strong></h1>
 
 ---
 
@@ -28,7 +28,8 @@ I'm an independent software developer based in sunny Seattle, Washington. <span 
 
 <div v-click><p><strong>What</strong> are t-strings?</p></div>
 <div v-click><p><strong>Why</strong> are t-strings?</p></div>
-<div v-click><p><strong>How</strong> do I use t-strings?</p></div>
+<div v-click><p><strong>How</strong> do I process t-strings?</p></div>
+<div v-click><p><strong>What</strong> can I do with t-string libraries?</p></div>
 <div v-click><p><strong>Where</strong> to next?</p></div>
 
 ---
@@ -168,6 +169,41 @@ list(template)
 
 ---
 
+# The `Interpolation` type
+
+<div v-click>
+```python314
+class Interpolation:
+    value: object          # the result
+    expression: str        # source text
+    conversion: str | None # !r, !s, !a
+    format_spec: str       # e.g. ".2f"
+```
+</div>
+
+---
+
+# **Conversions** and **format specs**
+
+````md magic-move
+```python314
+name = "World"
+template = t"Hello {name!r}"
+interp = template.interpolations[0]
+interp.value       # "World"
+interp.conversion  # "r"
+```
+```python314
+value = 42
+template = t"Result: {value:.2f}"
+interp = template.interpolations[0]
+interp.value       # 42
+interp.format_spec # ".2f"
+```
+````
+
+---
+
 # lower UPPER, Inc.
 
 <div class="smaller">
@@ -295,17 +331,17 @@ backgroundSize: contain
 from db import execute
 
 def get_student(name: str):
-	return execute(
-		f"SELECT * FROM students WHERE name = '{name}'"
-	)
+    return execute(
+        f"SELECT * FROM students WHERE name = '{name}'"
+    )
 ```
 ```python314
 from db import execute
 
 def get_student(name: str):
-	return execute(
-		f"SELECT * FROM students WHERE name = '{name}'"
-	)
+    return execute(
+        f"SELECT * FROM students WHERE name = '{name}'"
+    )
 
 get_student("John")
 ```
@@ -313,21 +349,23 @@ get_student("John")
 from db import execute
 
 def get_student(name: str):
-	return execute(
-		f"SELECT * FROM students WHERE name = '{name}'"
-	)
+    return execute(
+        f"SELECT * FROM students WHERE name = '{name}'"
+    )
 
-get_student("Robert'); DROP TABLE students;--") # ☠️ ☠️ ☠️
+get_student("Robert'); DROP TABLE students;--")
+# ☠️ ☠️ ☠️
 ```
 ```python314
 from db import execute_t
 
 def get_student(name: str):
-	return execute_t(
-		t"SELECT * FROM students WHERE name = '{name}'"
-	)
+    return execute_t(
+        t"SELECT * FROM students WHERE name = '{name}'"
+    )
 
-get_student("Robert'); DROP TABLE students;--") # 🎉 🦄 👍
+get_student("Robert'); DROP TABLE students;--")
+# 🎉 🦄 👍
 ```
 ````
 </div>
@@ -336,83 +374,424 @@ get_student("Robert'); DROP TABLE students;--") # 🎉 🦄 👍
 
 # T-strings make strings **flexible**
 
+---
+
+# How do I **process** t-strings?
+
+<div v-click><p>Let's write a real processing function</p></div>
 
 ---
 
-# Let's talk about HTML
+# Re-implementing **f-strings**
 
 <div class="smaller">
 ````md magic-move
 ```python314
-from some_library import html
+from string.templatelib import Template, Interpolation
+
+def f(template: Template) -> str:
+    parts = []
+    for item in template:
+        match item:
+            case str() as s:
+                parts.append(s)
+            case Interpolation(value, _, conv, spec):
+                ...
+    return "".join(parts)
 ```
 ```python314
-from some_library import html
+from string.templatelib import Template, Interpolation
 
-user = get_user_from_db(...)
-result = html(t"<div>{user.name}</div>")
-# "<div>John</div>"
-```
-```python314
-from some_library import html
+def convert(value, conversion):
+    if conversion == "a": return ascii(value)
+    if conversion == "r": return repr(value)
+    if conversion == "s": return str(value)
+    return value
 
-user = get_user_from_db(...)
-result = html(t"<div>{user.name}</div>")
-# <class 'HTMLElement'>
-```
-```python314
-from some_library import html
-
-user = get_user_from_db(...)
-element = html(t"<div>{user.name}</div>")
-# <class 'HTMLElement'>
-```
-```python314
-from some_library import html
-
-user = get_user_from_db(...)
-element = html(t"<div>{user.name}</div>")
-str(element)
-# "<div>John</div>"
-```
-```python314
-from some_library import html
-
-user = get_user_from_db(...)
-element = html(t"<div id={user.id}>{user.name}</div>")
-str(element)
-# "<div id='user-123'>John</div>"
-```
-```python314
-from some_library import html
-
-user = get_user_from_db(...)
-attribs = {"id": user.id, "class": ["user", "active"]}
-element = html(t"<div {attribs}>{name}</div>")
-str(element)
-# "<div id='user-123' class='user active'>John</div>"
+def f(template: Template) -> str:
+    parts = []
+    for item in template:
+        match item:
+            case str() as s:
+                parts.append(s)
+            case Interpolation(value, _, conv, spec):
+                value = convert(value, conv)
+                value = format(value, spec)
+                parts.append(value)
+    return "".join(parts)
 ```
 ````
 </div>
 
+---
+
+# Let's **test** it
+
+```python314
+name = "World"
+value = 42
+
+templated = t"Hello {name!r}, value: {value:.2f}"
+formatted = f"Hello {name!r}, value: {value:.2f}"
+
+assert f(templated) == formatted  # ✅
+```
 
 ---
 
-# **Fancy** template processing
+# **Structural pattern matching**
 
-<div v-click><p><code>html()</code> has to do a lot:</p></div>
+<div v-click><p>Iterate + <code>match</code> is the recommended pattern</p></div>
 
-<div v-click class="tight"><p>&ndash; <strong>Parse</strong> the <code>Template</code></p></div>
-<div v-click class="tight"><p>&ndash; Examine each substitution's <strong>type</strong> and <strong>position</strong> in the underlying <strong>grammar</strong></p></div>
-<div v-click class="tight"><p>&ndash; Decide how to <strong>render</strong> each value</p></div>
+<div v-click>
+```python314
+for item in template:
+    match item:
+        case str() as s:
+            ...  # handle static text
+        case Interpolation() as interp:
+            ...  # handle interpolations
+```
+</div>
+
+---
+
+# What can I do with **libraries**?
+
+<div v-click><p>Let's look at HTML templating with <code>tdom</code></p></div>
+
+---
+
+# Meet `tdom`
+
+<div v-click><p>An HTML templating library built on t-strings</p></div>
+<div v-click><p><code>pip install tdom</code></p></div>
+<div v-click><p>If you've used JSX, this will feel familiar</p></div>
+
+---
+
+# `tdom` **basics**
+
+````md magic-move
+```python314
+from tdom import html
+```
+```python314
+from tdom import html
+
+greeting = html(t"<h1>Hello, World!</h1>")
+```
+```python314
+from tdom import html
+
+greeting = html(t"<h1>Hello, World!</h1>")
+type(greeting)  # <class 'Element'>
+str(greeting)   # "<h1>Hello, World!</h1>"
+```
+````
+
+---
+
+# Variable **interpolation**
+
+```python314
+name = "Alice"
+age = 30
+greeting = html(t"""
+    <p>Hello, {name}! You are {age} years old.</p>
+""")
+# <p>Hello, Alice! You are 30 years old.</p>
+```
+
+---
+
+# Automatic **XSS protection**
+
+````md magic-move
+```python314
+evil = "<script>alert('owned')</script>"
+```
+```python314
+evil = "<script>alert('owned')</script>"
+page = html(t"<p>Hello, {evil}!</p>")
+```
+```python314
+evil = "<script>alert('owned')</script>"
+page = html(t"<p>Hello, {evil}!</p>")
+str(page)
+# Escaped! No script injection.
+```
+````
+
+<div v-click><p>Interpolated values are <strong>escaped by default</strong></p></div>
+
+---
+
+# **Attribute** substitution
+
+````md magic-move
+```python314
+url = "https://example.com"
+link = html(t'<a href="{url}">Visit</a>')
+# <a href="https://example.com">Visit</a>
+```
+```python314
+my_id = "my-button"
+button = html(t"<button id={my_id}>Click</button>")
+# <button id="my-button">Click</button>
+```
+```python314
+button = html(
+    t"<button disabled={True}>Submit</button>"
+)
+# <button disabled>Submit</button>
+```
+````
+
+<div v-click><p>Quoted, unquoted, boolean &mdash; it all works</p></div>
+
+---
+
+# Attribute **spreading**
+
+````md magic-move
+```python314
+attrs = {
+    "href": "https://example.com",
+    "target": "_blank",
+}
+link = html(t"<a {attrs}>External link</a>")
+```
+```python314
+attrs = {
+    "href": "https://example.com",
+    "target": "_blank",
+}
+link = html(t"<a {attrs}>External link</a>")
+str(link)
+# <a href="..." target="_blank">External link</a>
+```
+````
+
+<div v-click><p>Spread a <code>dict</code> &mdash; like JSX's <code>{'{'}...props{'}'}</code></p></div>
+
+---
+
+# Smart **`class`** handling
+
+<div class="smaller">
+````md magic-move
+```python314
+classes = ["btn", "btn-primary", "active"]
+html(t'<button class="{classes}">Click</button>')
+# <button class="btn btn-primary active">Click</button>
+```
+```python314
+classes = {"active": True, "hidden": False}
+html(t'<button class={classes}>Click</button>')
+# <button class="active">Click</button>
+```
+```python314
+overrides = {"btn-primary": True, "btn-secondary": False}
+html(t"""
+    <button class="btn btn-secondary" class={overrides}>
+        Click
+    </button>
+""")
+# <button class="btn btn-primary">Click</button>
+```
+````
+</div>
+
+<div v-click><p>Lists, dicts, and merging &mdash; just like you'd want</p></div>
+
+---
+
+# **Conditional** rendering
+
+```python314
+is_logged_in = True
+welcome = t"<span>Welcome back!</span>"
+login = t"<a href='/login'>Please log in</a>"
+
+header = html(t"""
+    <div>{welcome if is_logged_in else login}</div>
+""")
+```
+
+<div v-click><p>Just Python expressions &mdash; nothing new to learn</p></div>
+
+---
+
+# **Lists** and iteration
+
+```python314
+fruits = ["Apple", "Banana", "Cherry"]
+fruit_list = html(t"""
+    <ul>
+        {[t'<li>{fruit}</li>' for fruit in fruits]}
+    </ul>
+""")
+```
+
+<div v-click><p>List comprehensions compose naturally with t-strings</p></div>
+
+---
+
+# Template **composition**
+
+````md magic-move
+```python314
+header = t"<h1>My Site</h1>"
+page = html(t"<div>{header}</div>")
+# <div><h1>My Site</h1></div>
+```
+```python314
+header = html(t"<h1>My Site</h1>")
+page = html(t"<div>{header}</div>")
+# <div><h1>My Site</h1></div>
+```
+````
+
+<div v-click><p>Nest <code>Template</code> or <code>Element</code> &mdash; both work</p></div>
+
+---
+
+# **Component** functions
+
+<div class="smaller">
+````md magic-move
+```python314
+def Greeting(children, **attrs):
+    return html(t"<div {attrs}>{children}</div>")
+```
+```python314
+def Greeting(children, **attrs):
+    return html(t"<div {attrs}>{children}</div>")
+
+result = html(t"""
+    <{Greeting} id='g1'>Hello!</{Greeting}>
+""")
+```
+```python314
+def Greeting(children, **attrs):
+    return html(t"<div {attrs}>{children}</div>")
+
+result = html(t"""
+    <{Greeting} id='g1'>Hello!</{Greeting}>
+""")
+str(result)
+# '<div id="g1">Hello!</div>'
+```
+````
+</div>
+
+<div v-click><p>Use <code>&lt;{Callable}&gt;</code> syntax to invoke components</p></div>
+
+---
+
+# **Real-world** component
+
+<div class="smaller">
+```python314
+@dataclass
+class Card:
+    children: Iterable[Node]
+    title: str
+    subtitle: str | None = None
+
+    def __call__(self) -> Node:
+        return html(t"""
+            <div class='card'>
+                <h2>{self.title}</h2>
+                {self.subtitle and t'<h3>{self.subtitle}</h3>'}
+                <div class="content">{self.children}</div>
+            </div>
+        """)
+```
+</div>
+
+---
+
+# Using the **Card** component
+
+<div class="smaller">
+```python314
+result = html(t"""
+    <{Card} title='My Card' subtitle='Hello'>
+        <p>Card content</p>
+    </{Card}>
+""")
+```
+</div>
+
+<div v-click>
+```
+<div class='card'>
+    <h2>My Card</h2>
+    <h3>Hello</h3>
+    <div class="content"><p>Card content</p></div>
+</div>
+```
+</div>
+
+---
+
+# **Context-sensitive** processing
+
+<div v-click><p><code>html()</code> looks at <strong>where</strong> an interpolation appears</p></div>
+
+<div v-click>
+
+```python314
+attrs = {"id": "main"}
+val = "shrubbery"
+content = "hello"
+html(t"<div {attrs} data-x={val}>{content}</div>")
+```
+</div>
+
+<div v-click class="tight"><p>&ndash; <code>{attrs}</code> in a tag? Spread as attributes</p></div>
+<div v-click class="tight"><p>&ndash; <code>{val}</code> in a value position? Quote and escape</p></div>
+<div v-click class="tight"><p>&ndash; <code>{content}</code> in the body? Escape for safety</p></div>
+
+---
+
+# How does `html()` **work**?
+
+<div v-click><p>It <strong>parses</strong> the static parts as HTML</p></div>
+<div v-click><p>It examines each interpolation's <strong>position</strong> in the grammar</p></div>
+<div v-click><p>It decides how to <strong>handle</strong> each value based on context</p></div>
+<div v-click><p>It returns a tree of <code>Node</code> objects, not a string</p></div>
 
 ---
 
 # Where to **next**?
 
-<div v-click><p>Libraries!</p></div>
-<div v-click><p>Linters, formatters, type checkers!</p></div>
-<div v-click><p>Example code!</p></div>
+---
+
+# **Try** t-strings today
+
+<div v-click><p><strong>Python 3.14</strong> is available now</p></div>
+<div v-click><p><code>pip install tdom</code> for HTML templating</p></div>
+<div v-click><p>Check out <strong>t-strings.help</strong> for docs and examples</p></div>
+
+---
+
+# **Tools** are coming
+
+<div v-click><p>VS Code extension for <strong>syntax highlighting</strong> inside t-strings</p></div>
+<div v-click><p>Experimental <strong>ruff</strong> fork for formatting HTML in t-strings</p></div>
+<div v-click><p>Type checker support is in progress</p></div>
+
+---
+
+# **Get involved**
+
+<div v-click><p>The ecosystem is <strong>brand new</strong></p></div>
+<div v-click><p>Write a processing function &mdash; it's easier than you think</p></div>
+<div v-click><p>Build a library &mdash; SQL, CSS, shell scripts, logging...</p></div>
+<div v-click><p>The PEP examples repo is a great place to start</p></div>
 
 ---
 

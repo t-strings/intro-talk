@@ -40,18 +40,18 @@ strong {
 }
 
 .shiki {
-	font-size: 2em !important;
+	font-size: 1.6em !important;
 	border-radius: 0.25em !important;
 	line-height: 1.5em !important;
 	margin-bottom: 0.25em;
 }
 
 .smaller .shiki {
-	font-size: 1.3333em !important;
+	font-size: 1.2em !important;
 }
 
 .smallest .shiki {
-	font-size: 1.125em !important;
+	font-size: 1em !important;
 }
 
 @font-face {
