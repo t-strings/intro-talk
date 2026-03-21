@@ -32,6 +32,42 @@ I'm an independent software developer based in sunny Seattle, Washington. <span 
 <div v-click><p><strong>What's</strong> next in t-strings?</p></div>
 
 ---
+transition: fade
+---
+
+# A few **obvious** touchstones
+
+
+
+---
+layout: image-right
+image: /img/magnus.jpg
+backgroundSize: contain
+transition: fade
+---
+
+# Magnus Carlsen
+
+
+---
+layout: image-right
+image: /img/wayne.jpg
+backgroundSize: contain
+transition: fade
+---
+
+# Wayne Shorter
+
+
+---
+layout: image
+image: /img/cookies.png
+backgroundSize: contain
+---
+
+
+
+---
 
 # What are **t-strings**?
 
@@ -164,21 +200,23 @@ template = t"Hi {name}!"
 list(template)
 # ["Hi ", Interpolation("world"), "!"]
 ```
-````
-
----
-
-# And **inside** an Interpolation
-
-````md magic-move
 ```python314
 name = "world"
-t = t"Hi {name}!"
+template = t"Hi {name}!"
+list(template)
+# ["Hi ", Interpolation("world"), "!"]
+template.strings[0]
+# "Hi "
 ```
 ```python314
 name = "world"
-t = t"Hi {name}!"
-t.interpolations[0].value # "world"
+template = t"Hi {name}!"
+list(template)
+# ["Hi ", Interpolation("world"), "!"]
+template.strings[0]
+# "Hi "
+template.interpolations[0].value
+# "world"
 ```
 ````
 
@@ -250,6 +288,10 @@ result = "".join(parts)
 </div>
 
 ---
+layout: image-right
+image: /img/riddler.png
+backgroundSize: contain
+---
 
 # Yes, but **why**?
 
@@ -291,7 +333,10 @@ backgroundSize: contain
 
 ---
 
-# T-strings make strings **safer**
+# Templates make strings **safer**
+
+<div v-click><p>&ndash; Retain the <strong>structure</strong> of the string</p></div>
+<div v-click><p>&ndash; Libraries can smartly <strong>escape</strong> values, etc.</p></div>
 
 ---
 layout: image
@@ -352,10 +397,95 @@ get_student("Robert'); DROP TABLE students;--")  # 🎉 🦄 👍
 
 # T-strings make strings **flexible**
 
+---
+
+# Let's talk about HTML
+
+<div class="smaller">
+````md magic-move
+```python314
+from some_library import html
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
+result = html(t"<div>{user.name}</div>")
+# "<div>John</div>"
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
+result = html(t"<div>{user.name}</div>")
+# <class 'Element'>
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
+element = html(t"<div>{user.name}</div>")
+# <class 'Element'>
+element.tag
+# "div"
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
+element = html(t"<div>{user.name}</div>")
+# <class 'Element'>
+element.tag
+# "div"
+str(element)
+# "<div>John</div>"
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
+element = html(t"<div id={user.id}>{user.name}</div>")
+str(element)
+# "<div id='user-123'>John</div>"
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
+attribs = {"id": user.id, "class": ["user", "active"]}
+element = html(t"<div {attribs}>{name}</div>")
+str(element)
+# "<div id='user-123' class='user active'>John</div>"
+```
+````
+</div>
+
 
 ---
 
-# Doing **cool stuff** with t-strings
+# **Fancy** template processing
+
+<div v-click><p><code>html()</code> has to do a lot:</p></div>
+
+<div v-click class="tight"><p>&ndash; <strong>Parse</strong> the <code>Template</code></p></div>
+<div v-click class="tight"><p>&ndash; Examine each substitution's <strong>type</strong> and <strong>position</strong> in the underlying <strong>grammar</strong></p></div>
+<div v-click class="tight"><p>&ndash; Decide how to <strong>render</strong> each value</p></div>
+
+
+---
+
+# Coexist
+
+<div v-click><p>&ndash;**t-strings** _don't_ replace **f-strings**!</p></div>
+<div v-click></div>
+
+
+
+- Safety
+- Flexibility
+<div v-click>
+what
+</div>
 
 
 ---
