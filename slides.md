@@ -853,6 +853,7 @@ backgroundSize: contain
 # CookieTrails
 
 <div v-click><p>&ndash; A Django application</p></div>
+<div v-click><p>&ndash; Uses HTMX</p></div>
 <div v-click><p>&ndash; Uses <code>tdom</code> for templating</p></div>
 
 
