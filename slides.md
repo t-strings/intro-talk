@@ -542,7 +542,7 @@ Conversions &mdash; `!a`, `!r`, and `!s`
 
 Conversions &mdash; `!a`, `!r`, and `!s`
 
-````md magic-move { at: 2 }
+````md magic-move
 ```python314
 t"{42!r}"
 ```
@@ -667,6 +667,11 @@ target = board.square("f6")
 ```python314
 knight = board.piece_at("d5")
 target = board.square("f6")
+# "Nxf6+"
+```
+```python314
+knight = board.piece_at("d5")
+target = board.square("f6")
 move = t"{knight}x{target}+"
 ```
 ```python314
@@ -726,6 +731,13 @@ A = t"{tonic}|{sub}|{tonic}|{sub}"
 analyze(A, key="Cmi")
 # "i11|♭IIMA7|i11|♭IIMA7"
 ```
+```python314
+tonic = Chord("Cmi11")
+sub = Chord("D♭MA7")
+A = t"{tonic:drop2}|{sub:upper}"
+voice(A)
+# [C3 B♭3 E♭4 G4]|[D♭3 F4 A♭4 C5]
+```
 ````
 </div>
 
@@ -739,8 +751,6 @@ image: /img/knitting.jpg
 
 # T-string **libraries**
 
-<div v-click><p>&ndash; HTML templating with <code>tdom</code></p></div>
-
 
 --- 
 
@@ -752,41 +762,18 @@ image: /img/knitting.jpg
 from some_library import html
 
 user = get_user_from_db(...)
-attribs = {"id": user.id, "class": ["user", "active"]}
-element = html(t"<div {attribs}>{name}</div>")
-str(element)
-# "<div id='user-123' class='user active'>John</div>"
+element = html(t"<div>{user.name}</div>")
+# <class 'Element'>
 ```
 ```python314
 from tdom import html
 
 user = get_user_from_db(...)
-attribs = {"id": user.id, "class": ["user", "active"]}
-element = html(t"<div {attribs}>{name}</div>")
-str(element)
-# "<div id='user-123' class='user active'>John</div>"
+element = html(t"<div>{user.name}</div>")
+# <class 'Element'>
 ```
 ````
 </div>
-
-
----
-layout: image
-image: /img/cookies2.png
----
-
-
----
-layout: image
-image: /img/ebudde.png
----
-
-
----
-layout: image
-image: /img/reports.png
----
-
 
 
 ---
@@ -797,192 +784,118 @@ image: /img/reports.png
 <div v-click><p><code>pip install tdom</code></p></div>
 <div v-click><p>If you've used JSX, this will feel familiar</p></div>
 
+
+---
+layout: image
+image: /img/cookies2.png
+transition: fade
 ---
 
-# `tdom` **basics**
+
+---
+layout: image
+image: /img/ebudde.png
+transition: fade
+---
+
+
+---
+layout: image
+image: /img/reports.png
+transition: fade
+---
+
+
+---
+layout: image
+image: /img/trails.png
+transition: fade
+---
+
+
+---
+layout: image
+image: /img/trails-calc.png
+backgroundSize: contain
+transition: fade
+---
+
+
+
+---
+layout: image
+image: /img/trails-worksheet.png
+backgroundSize: contain
+transition: fade
+---
+
+
+
+---
+layout: image
+image: /img/trails-report.png
+backgroundSize: contain
+transition: fade
+---
+
+
+
+---
+layout: image
+image: /img/trails-reconcile.png
+backgroundSize: contain
+---
+
+
+
+---
+
+# CookieTrails
+
+<div v-click><p>&ndash; A Django application</p></div>
+<div v-click><p>&ndash; Uses <code>tdom</code> for templating</p></div>
+
+
+---
+transition: fade
+---
+
+# No Django **templates**?
+
+Nope, just Python!
+
+
+---
+
+# No Django **templates**?
 
 ````md magic-move
-```python314
-from tdom import html
+```text
+{% load some_tags %}
 ```
 ```python314
-from tdom import html
-
-greeting = html(t"<h1>Hello, World!</h1>")
-```
-```python314
-from tdom import html
-
-greeting = html(t"<h1>Hello, World!</h1>")
-type(greeting)  # <class 'Element'>
-str(greeting)   # "<h1>Hello, World!</h1>"
+import some_tags
 ```
 ````
 
 ---
 
-# Variable **interpolation**
-
-```python314
-name = "Alice"
-age = 30
-greeting = html(t"""
-    <p>Hello, {name}! You are {age} years old.</p>
-""")
-# <p>Hello, Alice! You are 30 years old.</p>
-```
-
----
-
-# Automatic **XSS protection**
+# No Django **templates**?
 
 ````md magic-move
-```python314
-evil = "<script>alert('owned')</script>"
-```
-```python314
-evil = "<script>alert('owned')</script>"
-page = html(t"<p>Hello, {evil}!</p>")
-```
-```python314
-evil = "<script>alert('owned')</script>"
-page = html(t"<p>Hello, {evil}!</p>")
-str(page)
-# Escaped! No script injection.
-```
-````
-
-<div v-click><p>Interpolated values are <strong>escaped by default</strong></p></div>
-
----
-
-# **Attribute** substitution
-
-````md magic-move
-```python314
-url = "https://example.com"
-link = html(t'<a href="{url}">Visit</a>')
-# <a href="https://example.com">Visit</a>
-```
-```python314
-my_id = "my-button"
-button = html(t"<button id={my_id}>Click</button>")
-# <button id="my-button">Click</button>
-```
-```python314
-button = html(
-    t"<button disabled={True}>Submit</button>"
-)
-# <button disabled>Submit</button>
-```
-````
-
-<div v-click><p>Quoted, unquoted, boolean &mdash; it all works</p></div>
-
----
-
-# Attribute **spreading**
-
-````md magic-move
-```python314
-attrs = {
-    "href": "https://example.com",
-    "target": "_blank",
-}
-link = html(t"<a {attrs}>External link</a>")
-```
-```python314
-attrs = {
-    "href": "https://example.com",
-    "target": "_blank",
-}
-link = html(t"<a {attrs}>External link</a>")
-str(link)
-# <a href="..." target="_blank">External link</a>
-```
-````
-
-<div v-click><p>Spread a <code>dict</code> &mdash; like JSX's <code>{'{'}...props{'}'}</code></p></div>
-
----
-
-# Smart **`class`** handling
-
-<div class="smaller">
-````md magic-move
-```python314
-classes = ["btn", "btn-primary", "active"]
-html(t'<button class="{classes}">Click</button>')
-# <button class="btn btn-primary active">Click</button>
-```
-```python314
-classes = {"active": True, "hidden": False}
-html(t'<button class={classes}>Click</button>')
-# <button class="active">Click</button>
-```
-```python314
-overrides = {"btn-primary": True, "btn-secondary": False}
-html(t"""
-    <button class="btn btn-secondary" class={overrides}>
-        Click
-    </button>
-""")
-# <button class="btn btn-primary">Click</button>
-```
-````
+```text
+<div>
+    {% include 'other.html' with foo=bar %}
 </div>
-
-<div v-click><p>Lists, dicts, and merging &mdash; just like you'd want</p></div>
-
----
-
-# **Conditional** rendering
-
-```python314
-is_logged_in = True
-welcome = t"<span>Welcome back!</span>"
-login = t"<a href='/login'>Please log in</a>"
-
-header = html(t"""
-    <div>{welcome if is_logged_in else login}</div>
-""")
-```
-
-<div v-click><p>Just Python expressions &mdash; nothing new to learn</p></div>
-
----
-
-# **Lists** and iteration
-
-```python314
-fruits = ["Apple", "Banana", "Cherry"]
-fruit_list = html(t"""
-    <ul>
-        {[t'<li>{fruit}</li>' for fruit in fruits]}
-    </ul>
-""")
-```
-
-<div v-click><p>List comprehensions compose naturally with t-strings</p></div>
-
----
-
-# Template **composition**
-
-````md magic-move
-```python314
-header = t"<h1>My Site</h1>"
-page = html(t"<div>{header}</div>")
-# <div><h1>My Site</h1></div>
 ```
 ```python314
-header = html(t"<h1>My Site</h1>")
-page = html(t"<div>{header}</div>")
-# <div><h1>My Site</h1></div>
+def other(foo: str) -> Template:
+    ...
+
+html(t"<div>{other(foo=bar)}</div>")
 ```
 ````
 
-<div v-click><p>Nest <code>Template</code> or <code>Element</code> &mdash; both work</p></div>
 
 ---
 
@@ -992,57 +905,60 @@ page = html(t"<div>{header}</div>")
 ````md magic-move
 ```python314
 def Greeting(children, **attrs):
-    return html(t"<div {attrs}>{children}</div>")
+    return t"<div class='vivid' {attrs}>{children}</div>"
 ```
 ```python314
 def Greeting(children, **attrs):
-    return html(t"<div {attrs}>{children}</div>")
+    return t"<div class='vivid' {attrs}>{children}</div>"
 
-result = html(t"""
-    <{Greeting} id='g1'>Hello!</{Greeting}>
-""")
+result = html(t"<{Greeting} id='g1'>Hello!</{Greeting}>")
 ```
 ```python314
 def Greeting(children, **attrs):
-    return html(t"<div {attrs}>{children}</div>")
+    return t"<div class='vivid' {attrs}>{children}</div>"
 
-result = html(t"""
-    <{Greeting} id='g1'>Hello!</{Greeting}>
-""")
+result = html(t"<{Greeting} id='g1'>Hello!</{Greeting}>")
 str(result)
-# '<div id="g1">Hello!</div>'
+# '<div class="vivid" id="g1">Hello!</div>'
 ```
 ````
 </div>
 
-<div v-click><p>Use <code>&lt;{Callable}&gt;</code> syntax to invoke components</p></div>
+<div v-click><p>Use <code>&lt;{Callable}&gt;</code> syntax to invoke</p></div>
 
 ---
 
-# **Real-world** component
+# **Dataclass** component
 
 <div class="smaller">
+````md magic-move
 ```python314
 @dataclass
 class Card:
     children: Iterable[Node]
     title: str
     subtitle: str | None = None
-
-    def __call__(self) -> Node:
-        return html(t"""
+    ...
+```
+```python314
+@dataclass
+class Card:
+    ...  # as before
+    def __call__(self) -> Template:
+        return t"""
             <div class='card'>
                 <h2>{self.title}</h2>
                 {self.subtitle and t'<h3>{self.subtitle}</h3>'}
                 <div class="content">{self.children}</div>
             </div>
-        """)
+        """
 ```
+````
 </div>
 
 ---
 
-# Using the **Card** component
+# Using **Card**
 
 <div class="smaller">
 ```python314
@@ -1054,7 +970,7 @@ result = html(t"""
 ```
 </div>
 
-<div v-click>
+<div v-click class="smaller">
 ```
 <div class='card'>
     <h2>My Card</h2>
@@ -1065,62 +981,57 @@ result = html(t"""
 </div>
 
 ---
-
-# **Context-sensitive** processing
-
-<div v-click><p><code>html()</code> looks at <strong>where</strong> an interpolation appears</p></div>
-
-<div v-click>
-
-```python314
-attrs = {"id": "main"}
-val = "shrubbery"
-content = "hello"
-html(t"<div {attrs} data-x={val}>{content}</div>")
-```
-</div>
-
-<div v-click class="tight"><p>&ndash; <code>{attrs}</code> in a tag? Spread as attributes</p></div>
-<div v-click class="tight"><p>&ndash; <code>{val}</code> in a value position? Quote and escape</p></div>
-<div v-click class="tight"><p>&ndash; <code>{content}</code> in the body? Escape for safety</p></div>
-
+layout: image-right
+image: /img/engine-bay.jpg
+backgroundSize: contain
 ---
 
-# How does `html()` **work**?
 
-<div v-click><p>It <strong>parses</strong> the static parts as HTML</p></div>
-<div v-click><p>It examines each interpolation's <strong>position</strong> in the grammar</p></div>
-<div v-click><p>It decides how to <strong>handle</strong> each value based on context</p></div>
-<div v-click><p>It returns a tree of <code>Node</code> objects, not a string</p></div>
-
----
-
-# Where to **next**?
-
----
-
-# **Try** t-strings today
-
-<div v-click><p><strong>Python 3.14</strong> is available now</p></div>
-<div v-click><p><code>pip install tdom</code> for HTML templating</p></div>
-<div v-click><p>Check out <strong>t-strings.help</strong> for docs and examples</p></div>
+<div v-click><p>&ndash; <code>tdom</code> 'compiles' templates</p></div>
+<div v-click><p>&ndash; <code>tdom</code> caches results</p></div>
+<div v-click><p>&ndash; It's fast</p></div>
 
 ---
 
 # **Tools** are coming
 
-<div v-click><p>VS Code extension for <strong>syntax highlighting</strong> inside t-strings</p></div>
-<div v-click><p>Experimental <strong>ruff</strong> fork for formatting HTML in t-strings</p></div>
-<div v-click><p>Type checker support is in progress</p></div>
+<div v-click><p>&ndash; For <strong>formatting</strong></p></div>
+<div v-click><p>&ndash; For <strong>syntax highlighting</strong></p></div>
+<div v-click><p>&ndash; For <strong>type checking</strong></p></div>
+
 
 ---
+layout: image
+image: /img/droplet.png
+backgroundSize: contain
+transition: fade
+---
 
-# **Get involved**
 
-<div v-click><p>The ecosystem is <strong>brand new</strong></p></div>
-<div v-click><p>Write a processing function &mdash; it's easier than you think</p></div>
-<div v-click><p>Build a library &mdash; SQL, CSS, shell scripts, logging...</p></div>
-<div v-click><p>The PEP examples repo is a great place to start</p></div>
+---
+layout: image
+image: /img/bucket.png
+backgroundSize: contain
+transition: fade
+---
+
+
+---
+layout: image
+image: /img/ocean.png
+backgroundSize: contain
+transition: fade
+---
+
+
+
+---
+layout: image
+image: /img/droplet.png
+backgroundSize: contain
+transition: fade
+---
+
 
 ---
 
@@ -1130,4 +1041,8 @@ See **t-strings.help** for more
 
 Find me at **davepeck.org**
 
-Please say hello and get involved!
+Please say hello!
+
+
+
+
