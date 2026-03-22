@@ -452,6 +452,14 @@ str(element)
 from some_library import html
 
 user = get_user_from_db(...)
+element = html(t"<div id='{user.id}'>{user.name}</div>")
+str(element)
+# "<div id='user-123'>John</div>"
+```
+```python314
+from some_library import html
+
+user = get_user_from_db(...)
 attribs = {"id": user.id, "class": ["user", "active"]}
 element = html(t"<div {attribs}>{name}</div>")
 str(element)
@@ -474,19 +482,12 @@ str(element)
 
 ---
 
-# Coexist
+# When to use **f-** vs. <strong>t-</strong>strings?
 
-<div v-click><p>&ndash;**t-strings** _don't_ replace **f-strings**!</p></div>
-<div v-click></div>
-
-
-
-- Safety
-- Flexibility
-<div v-click>
-what
-</div>
-
+<div v-click><p>&ndash; You <i>probably</i> want f-strings</p></div>
+<div v-click><p>&ndash; Use t-strings when you need <strong>escaping</strong></p></div>
+<div v-click><p>&ndash; Use t-strings when you have a <strong>grammar</strong></p></div>
+<div v-click><p>&ndash; Use t-strings when your <strong>library</strong> does</p></div>
 
 ---
 transition: wtf-enter
@@ -504,96 +505,289 @@ image: /img/f-strings-wtf.png
 
 ---
 
-Wow
+# fstrings.wtf
 
-
-
-
----
-
-# How do I **process** t-strings?
-
-<div v-click><p>Let's write a real processing function</p></div>
-
----
-
-# Re-implementing **f-strings**
-
-<div class="smaller">
 ````md magic-move
 ```python314
-from string.templatelib import Template, Interpolation
-
-def f(template: Template) -> str:
-    parts = []
-    for item in template:
-        match item:
-            case str() as s:
-                parts.append(s)
-            case Interpolation(value, _, conv, spec):
-                ...
-    return "".join(parts)
+f"{... = }"
 ```
 ```python314
-from string.templatelib import Template, Interpolation
+f"{... = }"
+# '... = Ellipsis'
+```
+```python314
+f"{... = }"
+# '... = Ellipsis'
+f"{1<5:1<5}"
+# '11111'
+a = "🍌"
+print(f"{a=!a}")
+# a='\U0001f34c'
+```
+````
 
-def convert(value, conversion):
-    if conversion == "a": return ascii(value)
-    if conversion == "r": return repr(value)
-    if conversion == "s": return str(value)
-    return value
+---
+transition: fade
+---
 
-def f(template: Template) -> str:
-    parts = []
-    for item in template:
-        match item:
-            case str() as s:
-                parts.append(s)
-            case Interpolation(value, _, conv, spec):
-                value = convert(value, conv)
-                value = format(value, spec)
-                parts.append(value)
-    return "".join(parts)
+# F-string parts of **speech**
+
+Conversions &mdash; `!a`, `!r`, and `!s`
+
+<div v-click><p><code>ascii()</code>, <code>repr()</code>, <code>str()</code></p></div>
+
+---
+
+# F-string parts of **speech**
+
+Conversions &mdash; `!a`, `!r`, and `!s`
+
+````md magic-move { at: 2 }
+```python314
+t"{42!r}"
+```
+```python314
+t"{42!r}".interpolations[0].conversion
+# "r"
+```
+````
+
+
+
+---
+
+# F-string parts of **speech**
+
+Format specs &mdash; the stuff after `:`
+
+````md magic-move
+```python314
+pi = 3.14159
+print(f"Pi is approximately {pi:.2f}")
+```
+```python314
+pi = 3.14159
+print(f"Pi is approximately {pi:.2f}")
+# 'Pi is approximately 3.14'
+```
+```python314
+pi = 3.14159
+print(f"Pi is approximately {pi:.2f}")
+# 'Pi is approximately 3.14'
+print(format(pi, ".2f"))
+# '3.14'
+```
+```python314
+pi = 3.14159
+print(f"Pi is approximately {pi:.2f}")
+# 'Pi is approximately 3.14'
+print(pi.__format__(".2f"))
+# '3.14'
+```
+```python314
+pi = 3.14159
+print(f"Pi is approximately {pi:.2f}")
+# 'Pi is approximately 3.14'
+print(float.__format__(pi, ".2f"))
+# '3.14'
+```
+```python314
+f"{None:burrito}"
+```
+```python314
+f"{None:burrito}"
+# TypeError: unsupported format string 
+# passed to NoneType.__format__
+```
+````
+
+---
+
+# Format specs in **t-strings**
+
+````md magic-move
+```python314
+f"{None:burrito}"
+```
+```python314
+t"{None:burrito}"
+```
+```python314
+t"{None:burrito}"  # 👍
+```
+```python314
+t"{None:burrito}".interpolations[0].value
+# None
+```
+```python314
+t"{None:burrito}".interpolations[0].format_spec
+# 'burrito'
+```
+````
+
+---
+transition: wtf-exit
+---
+
+# Format specs in **t-strings**
+
+Code that **processes** t-strings gets to decide what things mean!
+
+<div v-click><p>&ndash; <i>Can</i> call <code>format()</code></p></div>
+<div v-click><p>&ndash; <i>Can</i> go crazy</p></div>
+
+
+---
+
+# **Grammars** and **libraries**
+
+
+---
+layout: image-right
+image: /img/magnus.jpg
+backgroundSize: contain
+transition: fade
+---
+
+<div v-click><p>Chess notation</p></div>
+
+
+---
+layout: image-right
+image: /img/chess-position.png
+backgroundSize: contain
+---
+
+<div class="smallest">
+````md magic-move
+```python314
+knight = board.piece_at("d5")
+target = board.square("f6")
+```
+```python314
+knight = board.piece_at("d5")
+target = board.square("f6")
+move = t"{knight}x{target}+"
+```
+```python314
+knight = board.piece_at("d5")
+target = board.square("f6")
+move = t"{knight}x{target}+"
+new_board = board.apply(move)
+```
+````
+</div>
+
+
+---
+layout: image-right
+image: /img/wayne.jpg
+backgroundSize: contain
+---
+
+<div v-click><p>Music notation</p></div>
+
+
+---
+layout: image-right
+image: /img/speak-no-evil.png
+backgroundSize: contain
+---
+
+<div class="smallest">
+````md magic-move
+```python314
+tonic = Chord("Cmi11")
+sub = Chord("D♭MA7")
+```
+```python314
+tonic = Chord("Cmi11")
+sub = Chord("D♭MA7")
+A = t"{tonic}|{sub}|{tonic}|{sub}"
+```
+```python314
+tonic = Chord("Cmi11")
+sub = Chord("D♭MA7")
+A = t"{tonic}|{sub}|{tonic}|{sub}"
+transpose(A, 2)
+# Dmi11|E♭MA7|Dmi11|E♭MA7
+```
+```python314
+tonic = Chord("Cmi11")
+sub = Chord("D♭MA7")
+A = t"{tonic}|{sub}|{tonic}|{sub}"
+transpose(A, 2)
+# Dmi11|E♭MA7|Dmi11|E♭MA7
+```
+```python314
+tonic = Chord("Cmi11")
+sub = Chord("D♭MA7")
+A = t"{tonic}|{sub}|{tonic}|{sub}"
+analyze(A, key="Cmi")
+# "i11|♭IIMA7|i11|♭IIMA7"
 ```
 ````
 </div>
 
 ---
+layout: image
+image: /img/knitting.jpg
+---
 
-# Let's **test** it
-
-```python314
-name = "World"
-value = 42
-
-templated = t"Hello {name!r}, value: {value:.2f}"
-formatted = f"Hello {name!r}, value: {value:.2f}"
-
-assert f(templated) == formatted  # ✅
-```
 
 ---
 
-# **Structural pattern matching**
+# T-string **libraries**
 
-<div v-click><p>Iterate + <code>match</code> is the recommended pattern</p></div>
+<div v-click><p>&ndash; HTML templating with <code>tdom</code></p></div>
 
-<div v-click>
+
+--- 
+
+# T-strings and HTML
+
+<div class="smaller">
+````md magic-move
 ```python314
-for item in template:
-    match item:
-        case str() as s:
-            ...  # handle static text
-        case Interpolation() as interp:
-            ...  # handle interpolations
+from some_library import html
+
+user = get_user_from_db(...)
+attribs = {"id": user.id, "class": ["user", "active"]}
+element = html(t"<div {attribs}>{name}</div>")
+str(element)
+# "<div id='user-123' class='user active'>John</div>"
 ```
+```python314
+from tdom import html
+
+user = get_user_from_db(...)
+attribs = {"id": user.id, "class": ["user", "active"]}
+element = html(t"<div {attribs}>{name}</div>")
+str(element)
+# "<div id='user-123' class='user active'>John</div>"
+```
+````
 </div>
 
+
+---
+layout: image
+image: /img/cookies2.png
 ---
 
-# What can I do with **libraries**?
 
-<div v-click><p>Let's look at HTML templating with <code>tdom</code></p></div>
+---
+layout: image
+image: /img/ebudde.png
+---
+
+
+---
+layout: image
+image: /img/reports.png
+---
+
+
 
 ---
 

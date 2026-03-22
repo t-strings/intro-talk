@@ -161,6 +161,44 @@ strong {
 	}
 }
 
+/* goofy "wtf" exit transition: reverse of enter */
+.wtf-exit-enter-active {
+	animation: wtf-unyeet 0.6s ease-out both;
+}
+
+.wtf-exit-leave-active {
+	animation: wtf-zoom-spin-out 1s ease-in both;
+}
+
+@keyframes wtf-zoom-spin-out {
+	0% {
+		transform: scale(1) rotate(0deg);
+		opacity: 1;
+		filter: hue-rotate(0deg) blur(0);
+	}
+	30% {
+		transform: scale(1.2) rotate(-15deg);
+		opacity: 1;
+		filter: hue-rotate(45deg) blur(2px);
+	}
+	100% {
+		transform: scale(0) rotate(1080deg);
+		opacity: 0;
+		filter: hue-rotate(180deg) blur(20px);
+	}
+}
+
+@keyframes wtf-unyeet {
+	0% {
+		transform: scale(0.2) translateX(150%) rotate(-720deg);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1) translateX(0) rotate(0deg);
+		opacity: 1;
+	}
+}
+
 .slidev-vclick-target {
 	transition: all 0.25s ease-out;
 }
